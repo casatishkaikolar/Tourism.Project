@@ -145,7 +145,7 @@ with mlflow.start_run():
     print(confusion_matrix(ytest, y_pred_test))
 
     # Save the model locally
-    model_path = "best_tourism_model_v1.joblib"
+    model_path = "deployment/best_tourism_model_v1.joblib"
     joblib.dump(best_model, model_path)
     print(f"\nModel saved locally as: {model_path}")
 
