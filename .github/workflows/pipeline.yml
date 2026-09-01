@@ -11,6 +11,9 @@ jobs:
   register-dataset:
     name: Register Dataset
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Tourism.Project # 👈 Tells GitHub to run commands inside this subfolder
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -18,20 +21,22 @@ jobs:
           python-version: "3.11"
       - name: Install Dependencies
         run: pip install -r requirements.txt
-        working-directory: Tourism.Project
       - name: Register Dataset
         run: python model_building/data_register.py
       - name: Upload registered dataset
         uses: actions/upload-artifact@v4
         with:
           name: registered-data
-          path: data/tourism.csv
+          path: Tourism.Project/data/tourism.csv # 👈 Adjusted path for artifact upload
       
   # ---------- JOB 2: Data Preparation ----------
   data-prep:
     name: Data Preparation
     needs: register-dataset
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Tourism.Project # 👈 Tells GitHub to run commands inside this subfolder
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -39,7 +44,6 @@ jobs:
           python-version: "3.11"
       - name: Install Dependencies
         run: pip install -r requirements.txt
-        working-directory: Tourism.Project
                
       - name: Run Data Preparation
         run: python model_building/prep.py
@@ -49,15 +53,18 @@ jobs:
         with:
           name: data-splits
           path: |
-            Xtrain.csv
-            Xtest.csv
-            ytrain.csv
-            ytest.csv
+            Tourism.Project/Xtrain.csv
+            Tourism.Project/Xtest.csv
+            Tourism.Project/ytrain.csv
+            Tourism.Project/ytest.csv
 
   # ---------- JOB 3: Model Training ----------
   model-traning:
     needs: data-prep
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Tourism.Project # 👈 Tells GitHub to run commands inside this subfolder
     steps:
       - uses: actions/checkout@v4
 
@@ -67,18 +74,18 @@ jobs:
 
       - name: Install Dependencies
         run: pip install -r requirements.txt
-        working-directory: Tourism.Project
 
       - name: Download Train Test Splits
         uses: actions/download-artifact@v4
         with:
           name: data-splits
+          path: Tourism.Project # 👈 Downloads them directly back into the subfolder
 
       - name: Start MLflow Server and Train Model
         run: |
-          nohup mlflow ui --host 0.0.0.0 --port 5000 &  # Run MLflow UI in the background
-          sleep 5  # Wait for a moment to let the server start
-          python model_building/train.py  # Runs model training while MLflow is alive
+          nohup mlflow ui --host 0.0.0.0 --port 5000 &
+          sleep 5
+          python model_building/train.py
 
       - name: Commit Trained Model
         run: |
