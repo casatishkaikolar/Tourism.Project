@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: registered-data
-          path: Tourism.Project/Tourism.Project/data/tourism.csv # 👈 Adjusted path for artifact upload
+          path: SATISH/data/tourism.csv # 👈 Adjusted path for artifact upload
       
   # ---------- JOB 2: Data Preparation ----------
   data-prep:
