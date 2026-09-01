@@ -23,7 +23,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Register Dataset
-         run: python Tourism.Project/model_building/data_register.py
+         run: python model_building/data_register.py
       - name: Upload registered dataset
         uses: actions/upload-artifact@v4
         with:
