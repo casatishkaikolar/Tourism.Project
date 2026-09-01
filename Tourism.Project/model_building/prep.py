@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 
 #  Define Project Paths (Relative to the GitHub Repo Root)
 # This replaces the Google Drive paths
-df = pd.read_csv("Tourism.Project/data/tourism.csv")
+df = pd.read_csv("data/tourism.csv")
 df.drop(['CustomerID'],axis=1,inplace=True)
 
 
@@ -60,6 +60,6 @@ for file_path in files:
     api.upload_file(
         path_or_fileobj=file_path,
         path_in_repo=file_path.split("/")[-1],  # just the filename
-        repo_id="casatish.kaikolar/Tourism.Project/Data",
+        repo_id="casatish.kaikolar/Tourism.Project/Tourism.Project/Data",
         repo_type="dataset",
     )
