@@ -36,8 +36,7 @@ def clean_data(data):
 df_cleaned = clean_data(df)
 
 # Separating target column
-X = df_cleaned.drop(['ProdTaken','PitchSatisfactionScore','ProductPitched','NumberOfFollowups','DurationOfPitch','Agebin','Incomebin'],axis=1)
-X = pd.get_dummies(X,drop_first=True)
+X = df_cleaned.drop('ProdTaken',axis=1)
 y = df_cleaned['ProdTaken']
 
 #  Split the cleaned dataset (Stratify ensures Prodtaken ratio stays same)
