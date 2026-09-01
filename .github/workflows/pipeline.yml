@@ -1,9 +1,6 @@
 name: Tourism Project Pipeline
 
 on:
-  push:
-    branches:
-      - main  # Automatically triggers on push to the main branch
   workflow_dispatch:  # lets you click "Run workflow" in the Actions tab
 
 permissions:
@@ -21,9 +18,8 @@ jobs:
           python-version: "3.11"
       - name: Install Dependencies
         run: pip install -r requirements.txt
-
       - name: Register Dataset
-         run: python model_building/data_register.py
+        run: python model_building/data_register.py
       - name: Upload registered dataset
         uses: actions/upload-artifact@v4
         with:
