@@ -47,12 +47,5 @@ Xtest.to_csv("Xtest.csv", index=False)
 ytrain.to_csv("ytrain.csv", index=False)
 ytest.to_csv("ytest.csv", index=False)
 
-files = ["Xtrain.csv","Xtest.csv","ytrain.csv","ytest.csv"]
-
-for file_path in files:
-    api.upload_file(
-        path_or_fileobj=file_path,
-        path_in_repo=file_path.split("/")[-1],  # just the filename
-        repo_id="casatish.kaikolar/Tourism.Project/Tourism.Project/Data",
-        repo_type="dataset",
-    )
+print("Data prepared: train/test splits written.")
+print("Type values kept as:", sorted(X["Type"].unique()))
