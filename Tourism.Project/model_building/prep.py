@@ -40,13 +40,7 @@ X = df_cleaned.drop('ProdTaken',axis=1)
 y = df_cleaned['ProdTaken']
 
 #  Split the cleaned dataset (Stratify ensures Prodtaken ratio stays same)
-Xtrain, Xtest, ytrain, ytest = train_test_split(
-    df_cleaned,
-    test_size=0.2,
-    random_state=42,
-    stratify=y
-)
-
+Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 Xtrain.to_csv("Xtrain.csv", index=False)
 Xtest.to_csv("Xtest.csv", index=False)
