@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Tourism.Project # 👈 Tells GitHub to run commands inside this subfolder
+        working-directory: Tourism.Project
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,8 +27,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: registered-data
-          path: data/tourism.csv # 👈 Adjusted path for artifact upload
-      
+          path: Tourism.Project/data/tourism.csv # 👈 FIXED: Matches repository root structure
+
   # ---------- JOB 2: Data Preparation ----------
   data-prep:
     name: Data Preparation
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Tourism.Project # 👈 Tells GitHub to run commands inside this subfolder
+        working-directory: Tourism.Project
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -64,10 +64,9 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Tourism.Project # 👈 Tells GitHub to run commands inside this subfolder
+        working-directory: Tourism.Project
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -79,12 +78,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: data-splits
-          path: Tourism.Project # 👈 Downloads them directly back into the subfolder
+          path: Tourism.Project
 
       - name: Start MLflow Server and Train Model
-      env:
-          # 🟢 Injects the tracking URI directly into the environment
-          MLFLOW_TRACKING_URI: http://127.0.0.1:5000 
+        env: # 👈 FIXED: Aligned directly under the step name
+          MLFLOW_TRACKING_URI: http://127.0.0.1:5000 # 👈 FIXED: Shifted back 2 spaces
         run: |
           nohup mlflow ui --host 127.0.0.1 --port 5000 &
           sleep 5
