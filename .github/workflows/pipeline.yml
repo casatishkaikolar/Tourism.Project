@@ -52,31 +52,36 @@ jobs:
             ytrain.csv
             ytest.csv
 # ---------- JOB 3: Model Training ----------
-  model-traning:
+model-traning:
     needs: data-prep
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install Dependencies
         run: pip install -r requirements.txt
+
       - name: Download Train Test Splits
         uses: actions/download-artifact@v4
         with:
           name: data-splits
-          - name: Train model
-          - name: Start MLflow Server
-         run: |
-            nohup mlflow ui --host 0.0.0.0 --port 5000 &  # Run MLflow UI in the background
-            sleep 5  # Wait for a moment to let the server starts
+
+      - name: Start MLflow Server
+        run: |
+          nohup mlflow ui --host 0.0.0.0 --port 5000 &  # Run MLflow UI in the background
+          sleep 5  # Wait for a moment to let the server start
+
       - name: Model Building
         run: python model_building/train.py
+
       - name: Commit Trained Model
         run: |
           git config user.name "casatishkaikolar"
           git config user.email "casatish.kaikolar@gmail.com"
-          git add deployment/best_tourism_model_v1.joblib  # path to the saved model file
+          git add deployment/best_tourism_model_v1.joblib
           git commit -m "Add trained model [skip ci]" || echo "No changes to commit"
           git push
