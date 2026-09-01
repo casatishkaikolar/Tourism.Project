@@ -63,15 +63,3 @@ for file_path in files:
         repo_id="casatish.kaikolar/Tourism.Project/Data",
         repo_type="dataset",
     )
-
-# Retrieve the token from GitHub Secrets (passed as an environment variable in pipeline.yml)
-hf_token = os.getenv('HF_TOKEN')
-
-if hf_token:
-    processed_dataset.push_to_hub(
-        "casatishkaikolar/Tourism.Project/Data/VisitWithUs-Tourism-Dataset-Processed",
-        token=hf_token
-    )
-    print("Cleaned data successfully pushed!")
-else:
-    print("Error: HF_TOKEN not found in environment variables.Check your GitHub")
